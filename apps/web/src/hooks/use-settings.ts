@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiFetch, apiPost, apiDelete } from "@/lib/api-fetch";
+import { apiFetch, apiPost, apiPut, apiDelete } from "@/lib/api-fetch";
 
 export interface StoredApiKey {
   id: string;
@@ -37,5 +37,12 @@ export function useDeleteApiKey() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["api-keys"] });
     },
+  });
+}
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: (data: { currentPassword: string; newPassword: string }) =>
+      apiPut("/api/settings/password", data),
   });
 }

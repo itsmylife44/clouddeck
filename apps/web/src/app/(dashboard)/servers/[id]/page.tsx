@@ -1,7 +1,8 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   ArrowLeft,
   Play,
@@ -21,10 +22,13 @@ import {
   User,
   Hash,
   Tag,
+  Pencil,
+  Check,
+  X,
   EyeOff as EyeOffIcon,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useServer, useServerStatus, usePowerAction, useHideService } from "@/hooks/use-servers";
+import { useServer, useServerStatus, usePowerAction, useHideService, useUpdateServerLabel } from "@/hooks/use-servers";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -42,11 +46,16 @@ export default function ServerDetailPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
+  const { data: session } = useSession();
   const { data: server, isLoading } = useServer(id);
   const { data: status } = useServerStatus(id);
   const powerMutation = usePowerAction(id);
   const hideMutation = useHideService(id);
+  const updateLabel = useUpdateServerLabel();
   const [confirmAction, setConfirmAction] = useState<string | null>(null);
+  const [editingLabel, setEditingLabel] = useState(false);
+  const [labelDraft, setLabelDraft] = useState("");
+  const labelInputRef = useRef<HTMLInputElement>(null);
 
   function handlePower(action: "start" | "stop" | "shutdown" | "restart") {
     if (["stop", "shutdown", "restart"].includes(action) && confirmAction !== action) {
@@ -96,9 +105,70 @@ export default function ServerDetailPage({
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
-              {server.name || server.hostname || "Server"}
-            </h1>
+            <div className="flex items-center gap-2">
+              {editingLabel ? (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    updateLabel.mutate(
+                      { serviceId: id, label: labelDraft },
+                      {
+                        onSuccess: () => {
+                          setEditingLabel(false);
+                          toast.success(labelDraft.trim() ? "Label saved" : "Label removed");
+                        },
+                        onError: (err) => toast.error(err.message),
+                      },
+                    );
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <input
+                    ref={labelInputRef}
+                    value={labelDraft}
+                    onChange={(e) => setLabelDraft(e.target.value)}
+                    placeholder={server.name || server.hostname || "Server label"}
+                    maxLength={100}
+                    className="h-10 rounded-lg border border-indigo-300 bg-white px-3 text-2xl font-extrabold tracking-tight text-slate-900 outline-none ring-2 ring-indigo-100"
+                    autoFocus
+                  />
+                  <button
+                    type="submit"
+                    disabled={updateLabel.isPending}
+                    aria-label="Save label"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-emerald-600 hover:bg-emerald-50"
+                  >
+                    {updateLabel.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingLabel(false)}
+                    aria-label="Cancel edit"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </form>
+              ) : (
+                <>
+                  <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+                    {server.customLabel || server.name || server.hostname || "Server"}
+                  </h1>
+                  {session?.user?.role === "ADMIN" && (
+                    <button
+                      onClick={() => {
+                        setLabelDraft(server.customLabel || "");
+                        setEditingLabel(true);
+                      }}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-indigo-600"
+                      title="Edit server label"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
             <div className="mt-1 flex items-center gap-3">
               <StatusIndicator status={displayStatus} />
               <Badge
@@ -358,17 +428,16 @@ export default function ServerDetailPage({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {server.os && (
+            {(server.osName || server.os) && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-slate-500">
                   <Monitor className="h-4 w-4" />
                   OS Template
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-slate-600 max-w-[200px] truncate" title={server.os}>
-                    {server.os}
+                  <span className="text-sm font-medium text-slate-900">
+                    {server.osName || server.os}
                   </span>
-                  <CopyButton value={server.os} />
                 </div>
               </div>
             )}

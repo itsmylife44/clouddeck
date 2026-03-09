@@ -1,11 +1,17 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiFetch, apiPost } from "@/lib/api-fetch";
+import { apiFetch, apiPost, apiPut } from "@/lib/api-fetch";
 import type { ServiceListItem, Service, ServiceStatus, ServiceIpResponse, Backup, CronJob, ServiceOs, PowerAction, LiveData, TrafficData } from "@clouddeck/datalix-client";
 
+/** Server list item enriched with custom label from our DB */
+export type EnrichedServiceListItem = ServiceListItem & { customLabel?: string | null };
+
+/** Server detail enriched with custom label and resolved OS name */
+export type EnrichedService = Service & { customLabel?: string | null; osName?: string | null };
+
 export function useServers() {
-  return useQuery<ServiceListItem[]>({
+  return useQuery<EnrichedServiceListItem[]>({
     queryKey: ["servers"],
     queryFn: () => apiFetch("/api/servers"),
     refetchInterval: 30_000,
@@ -13,7 +19,7 @@ export function useServers() {
 }
 
 export function useServer(id: string) {
-  return useQuery<Service>({
+  return useQuery<EnrichedService>({
     queryKey: ["server", id],
     queryFn: () => apiFetch(`/api/servers/${id}`),
   });
@@ -126,5 +132,28 @@ export function useNoVnc(id: string) {
     queryKey: ["server-novnc", id],
     queryFn: () => apiFetch(`/api/servers/${id}/novnc`),
     enabled: false, // only fetch on demand
+  });
+}
+
+/* ─── Server Labels ───────────────────────────────────────────── */
+
+export function useServerLabels() {
+  return useQuery<Record<string, string>>({
+    queryKey: ["server-labels"],
+    queryFn: () => apiFetch("/api/servers/labels"),
+  });
+}
+
+export function useUpdateServerLabel() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: { serviceId: string; label: string }) =>
+      apiPut<{ serviceId: string; label: string | null }>("/api/servers/labels", data),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["server-labels"] });
+      queryClient.invalidateQueries({ queryKey: ["servers"] });
+      queryClient.invalidateQueries({ queryKey: ["server", variables.serviceId] });
+    },
   });
 }

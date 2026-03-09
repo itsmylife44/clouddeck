@@ -5,19 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Server,
-  Settings,
   ChevronLeft,
   ChevronRight,
-  LogOut,
   LayoutDashboard,
   Users,
 } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/servers", label: "Servers", icon: Server },
-  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 const adminItems = [
@@ -118,14 +115,6 @@ export function Sidebar() {
 
       {/* Bottom actions */}
       <div className="border-t border-slate-100 p-3 space-y-1">
-        <button
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          className="group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
-        >
-          <LogOut className="h-5 w-5 shrink-0 text-slate-400 group-hover:text-red-500 transition-colors" />
-          {!collapsed && <span>Sign Out</span>}
-        </button>
-
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="flex w-full items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-all duration-200"

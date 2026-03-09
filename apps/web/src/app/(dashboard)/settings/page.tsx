@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Key, Plus, Trash2, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { Key, Plus, Trash2, Loader2, CheckCircle2, AlertCircle, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoadingSpinner } from "@/components/ui/loading-state";
-import { useApiKeys, useAddApiKey, useDeleteApiKey } from "@/hooks/use-settings";
+import { useApiKeys, useAddApiKey, useDeleteApiKey, useChangePassword } from "@/hooks/use-settings";
 
 export default function SettingsPage() {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.role === "ADMIN";
   const { data: apiKeys, isLoading } = useApiKeys();
   const addKey = useAddApiKey();
   const deleteKey = useDeleteApiKey();
@@ -51,12 +54,15 @@ export default function SettingsPage() {
           </span>
         </h1>
         <p className="mt-1 text-slate-500">
-          Manage your Datalix API keys and preferences
+          {isAdmin ? "Manage your API keys and account preferences" : "Manage your account preferences"}
         </p>
       </div>
 
-      {/* API Keys */}
-      <Card className="hover:translate-y-0">
+      {/* Change Password */}
+      <ChangePasswordCard />
+
+      {/* API Keys — Admin only */}
+      {isAdmin && <Card className="hover:translate-y-0">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
@@ -162,7 +168,108 @@ export default function SettingsPage() {
             </div>
           )}
         </CardContent>
-      </Card>
+      </Card>}
     </div>
+  );
+}
+
+/* ─── Change Password Card ──────────────────────────────────── */
+
+function ChangePasswordCard() {
+  const changePassword = useChangePassword();
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (newPassword !== confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    if (newPassword.length < 12) {
+      toast.error("Password must be at least 12 characters");
+      return;
+    }
+
+    changePassword.mutate(
+      { currentPassword, newPassword },
+      {
+        onSuccess: () => {
+          toast.success("Password updated successfully");
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
+        },
+        onError: (err) => toast.error(err.message),
+      },
+    );
+  }
+
+  return (
+    <Card className="hover:translate-y-0">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Lock className="h-5 w-5 text-indigo-600" />
+          Change Password
+        </CardTitle>
+        <CardDescription>
+          Update your account password. Minimum 12 characters.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="current-password">Current Password</Label>
+            <Input
+              id="current-password"
+              type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="new-password">New Password</Label>
+              <Input
+                id="new-password"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                minLength={12}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Confirm New Password</Label>
+              <Input
+                id="confirm-password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                minLength={12}
+              />
+            </div>
+          </div>
+          <Button type="submit" disabled={changePassword.isPending || !currentPassword || !newPassword || !confirmPassword}>
+            {changePassword.isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Updating...
+              </>
+            ) : (
+              "Update Password"
+            )}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

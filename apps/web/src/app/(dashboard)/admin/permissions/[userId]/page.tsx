@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Modal } from "@/components/ui/modal";
 import { LoadingSpinner, ErrorState, EmptyState } from "@/components/ui/loading-state";
 import { useUserPermissions, useUpsertPermission, useDeletePermission } from "@/hooks/use-permissions";
-import { useServers } from "@/hooks/use-servers";
+import { useServers, useServerLabels } from "@/hooks/use-servers";
 import { Permission, RoleTemplate } from "@/lib/permissions";
 
 const PERMISSION_FLAGS = [
@@ -48,6 +48,7 @@ export default function UserPermissionsPage({
   const { userId } = use(params);
   const { data: permissions, isLoading, error, refetch } = useUserPermissions(userId);
   const { data: servers } = useServers();
+  const { data: labels } = useServerLabels();
   const upsertPermission = useUpsertPermission();
   const deletePermission = useDeletePermission();
   const [showAdd, setShowAdd] = useState(false);
@@ -86,6 +87,13 @@ export default function UserPermissionsPage({
         onError: (err) => toast.error(err.message),
       },
     );
+  }
+
+  // Resolve server display name from labels or API name
+  function getServerName(serviceId: string): string {
+    if (labels?.[serviceId]) return labels[serviceId];
+    const srv = servers?.find((s) => String(s.id) === serviceId);
+    return srv?.name || `Server ${serviceId}`;
   }
 
   // Servers not yet assigned to this user
@@ -147,7 +155,7 @@ export default function UserPermissionsPage({
                       <Server className="h-5 w-5 text-indigo-600" />
                     </div>
                     <CardTitle className="text-base">
-                      Server {perm.serviceId}
+                      {getServerName(perm.serviceId)}
                     </CardTitle>
                   </div>
                   <div className="flex items-center gap-2">
@@ -230,7 +238,7 @@ function AddServerModal({
   open: boolean;
   onClose: () => void;
   userId: string;
-  servers: { id: string; name?: string | null; productdisplay?: string }[];
+  servers: { id: string; name?: string | null; productdisplay?: string; customLabel?: string | null }[];
 }) {
   const upsertPermission = useUpsertPermission();
   const [selectedServer, setSelectedServer] = useState("");
@@ -270,7 +278,7 @@ function AddServerModal({
               <option value="">Select a server...</option>
               {servers.map((s) => (
                 <option key={s.id} value={String(s.id)}>
-                  {s.productdisplay || s.name || `Server ${s.id}`}
+                  {s.customLabel || s.productdisplay || s.name || `Server ${s.id}`}
                 </option>
               ))}
             </select>

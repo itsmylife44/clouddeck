@@ -25,7 +25,10 @@ export default async function DashboardLayout({
   });
 
   if (!user) {
-    redirect("/login");
+    // User exists in JWT but not in DB (e.g. after database reset).
+    // Redirect to force-logout to clear the stale session and prevent
+    // a redirect loop between the proxy (JWT valid) and layout (user missing).
+    redirect("/force-logout");
   }
 
   if (user.role === "ADMIN") {

@@ -5,9 +5,21 @@ import { db } from "@/lib/db";
 import { encrypt, decrypt } from "@/lib/encryption";
 import { DatalixClient } from "@clouddeck/datalix-client";
 
+async function requireAdmin() {
+  const session = await requireAuth();
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true },
+  });
+  if (!user || user.role !== "ADMIN") {
+    throw new Error("FORBIDDEN");
+  }
+  return session;
+}
+
 export async function GET() {
   try {
-    const session = await requireAuth();
+    const session = await requireAdmin();
     const apiKeys = await db.apiKey.findMany({
       where: { userId: session.user.id },
       select: {
@@ -32,7 +44,7 @@ const createKeySchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const session = await requireAdmin();
     const body = await request.json();
     const parsed = createKeySchema.safeParse(body);
 
@@ -75,7 +87,7 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const session = await requireAdmin();
     const { id } = await request.json();
 
     if (!id) return errorResponse("API key ID required", 400);

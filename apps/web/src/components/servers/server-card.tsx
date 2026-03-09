@@ -8,7 +8,7 @@ import { formatExpiry } from "@/lib/formatters";
 import type { ServiceListItem } from "@clouddeck/datalix-client";
 
 interface ServerCardProps {
-  server: ServiceListItem;
+  server: ServiceListItem & { customLabel?: string | null };
 }
 
 export function ServerCard({ server }: ServerCardProps) {
@@ -19,7 +19,7 @@ export function ServerCard({ server }: ServerCardProps) {
           <div className="space-y-1">
             <CardTitle className="flex items-center gap-2">
               <Server className="h-4 w-4 text-slate-400" />
-              {server.name || `Server`}
+              {server.customLabel || server.name || `Server`}
             </CardTitle>
             <div className="flex items-center gap-2">
               <Badge variant="default">

@@ -26,6 +26,15 @@ export function apiPost<T>(url: string, body: unknown): Promise<T> {
   });
 }
 
+/** PUT helper with JSON body. */
+export function apiPut<T>(url: string, body: unknown): Promise<T> {
+  return apiFetch<T>(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
 /** PATCH helper with JSON body. */
 export function apiPatch<T>(url: string, body: unknown): Promise<T> {
   return apiFetch<T>(url, {

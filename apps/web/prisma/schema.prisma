@@ -80,3 +80,10 @@ model ServerPermission {
   @@unique([userId, serviceId])
   @@index([userId])
 }
+
+model ServerLabel {
+  serviceId String   @id
+  label     String   @db.VarChar(100)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
