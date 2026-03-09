@@ -1,0 +1,3089 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ApiDoc",
+        "description": "\n\n# Api Keys and Auth\nDirect access to the API is recommended via the provided API Key\n\n# Limits\nThere is a global rate limit of 240 requests per minute per IP or Token.\nIf an endpoint specifies a additional limit, it is noted in the documentation.\n\n# Reporting errors\nEach response contains a Request ID (Header X-Request-Id) with this Request ID you can report the problem to us.\n",
+        "version": "0.1.1"
+    },
+    "servers": [
+        {
+            "url": "https://backend.datalix.de/v1/"
+        }
+    ],
+    "paths": {
+        "/donation/link/{linkId}/start": {
+            "post": {
+                "tags": [
+                    "donation"
+                ],
+                "description": "\n## Ratelimit\n20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "linkId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1,
+                            "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Nice donation message"
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "paymentmethod": {
+                                        "type": "string",
+                                        "example": "psc/sofort/giropay"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "message": "Nice donation message",
+                                    "amount": "1",
+                                    "paymentmethod": "psc"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/DonationPaymentLinkStart"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                }
+            }
+        },
+        "/donation/{donationId}/status": {
+            "post": {
+                "tags": [
+                    "donation"
+                ],
+                "description": "\n## Ratelimit\n20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "donationId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1,
+                            "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/DonationPaymentStatus"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                }
+            }
+        },
+        "/reseller/order/kvm/{kvmPacketId}": {
+            "post": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "kvmPacketId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1,
+                            "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "os": {
+                                        "type": "string",
+                                        "example": "0ebd6527-57c9-48b5-b5b5-ce4b97fba670"
+                                    },
+                                    "ipcount": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "trafficcount": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "days": {
+                                        "type": "integer",
+                                        "example": "30"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "os": "0ebd6527-57c9-48b5-b5b5-ce4b97fba670",
+                                    "ipcount": "1",
+                                    "trafficcount": "1",
+                                    "days": "30"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ResellerOrderKVMReseponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/order/gameserver/{gameId}": {
+            "post": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "gameId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1,
+                            "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "package": {
+                                        "type": "string",
+                                        "example": "0ebd6527-57c9-48b5-b5b5-ce4b97fba670"
+                                    },
+                                    "version": {
+                                        "type": "string",
+                                        "example": "0ebd6527-57c9-48b5-b5b5-ce4b97fba670"
+                                    },
+                                    "days": {
+                                        "type": "integer",
+                                        "example": "30"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "package": "0ebd6527-57c9-48b5-b5b5-ce4b97fba670",
+                                    "version": "0ebd6527-57c9-48b5-b5b5-ce4b97fba670",
+                                    "days": "30"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ResellerOrderGameserverReseponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/gameserver": {
+            "get": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 60 seconds",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ResellerGameServerResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/gameserver/packages/{gameId}": {
+            "get": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "gameId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ResellerGameServerVersionResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/extend/service/{serviceId}": {
+            "post": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1,
+                            "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "days": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "days": "15"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ResellerExtendServiceReseponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/interface/{interfaceid}/user/list": {
+            "get": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "interfaceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/InterfaceUserResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/interface/{interfaceid}/user/{userid}/service/list": {
+            "get": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "interfaceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    },
+                    {
+                        "name": "userid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/InterfaceServiceResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/interface/{interfaceid}/user/{userid}": {
+            "delete": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "interfaceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    },
+                    {
+                        "name": "userid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/interface/{interfaceid}/user/{userid}/service/{assingid}": {
+            "delete": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "interfaceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    },
+                    {
+                        "name": "userid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    },
+                    {
+                        "name": "assingid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/interface/{interfaceid}/user": {
+            "post": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "interfaceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "test@test.de",
+                                    "username": "test",
+                                    "0": "password",
+                                    "1": "test"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ResellerUserCreateResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/reseller/interface/{interfaceid}/user/assing": {
+            "post": {
+                "tags": [
+                    "reseller"
+                ],
+                "description": "\n## Ratelimit\n20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "interfaceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "service": {
+                                        "type": "string"
+                                    },
+                                    "userid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "service": "e53490af-aa1a-4c01-8617-b5f77e7fd773",
+                                    "userid": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/kvmserver/line/{kvmline}": {
+            "get": {
+                "tags": [
+                    "kvmserver"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "kvmline",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/KVMLineResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                }
+            }
+        },
+        "/kvmserver/packet/{packetid}": {
+            "get": {
+                "tags": [
+                    "kvmserver"
+                ],
+                "description": "\n        ## Ratelimit\n        30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "packetid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "4",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/KVMPacketResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                }
+            }
+        },
+        "/kvmserver/packet/{packetid}/os": {
+            "get": {
+                "tags": [
+                    "kvmserver"
+                ],
+                "description": "\n        ## Ratelimit\n        30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "packetid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "4",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/KVMPacketOsResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                }
+            }
+        },
+        "/order/kvmserver/{kvmPacketId}": {
+            "post": {
+                "tags": [
+                    "order"
+                ],
+                "description": "\n    ## Ratelimit\n    20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "kvmPacketId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1,
+                            "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "paymentMethod": {
+                                        "type": "string",
+                                        "example": "paypal"
+                                    },
+                                    "os": {
+                                        "type": "string",
+                                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                                    },
+                                    "ipcount": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "credit": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "paymentMethod": "1",
+                                    "os": "ipcount",
+                                    "1": "credit"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OrderKVMResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/order/{orderId}/pay": {
+            "post": {
+                "tags": [
+                    "order"
+                ],
+                "description": "\n    ## Ratelimit\n    20 requests every 120 seconds",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string",
+                            "minimum": 1,
+                            "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "paymentMethod": {
+                                        "type": "string",
+                                        "example": "paypal"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "paymentMethod": "paypal"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OrderPayResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/list": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n    ## Ratelimit\n    30 requests every 60 seconds",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceListResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceInfoResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/status": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds\n   ## Status List\n   stopping => Service is stopping\n   shutdown => Service is stopping (via shutdown)\n   starting => Service is starting\n   running => Service is online\n   stopped => Service is offline\n   installing => Service is installing\n   preorder => Service is waiting to be deployed\n   createbackup => Service is creating a backup\n   restorebackup => Service is restoring a backup\n   backupplanned => Service has a backup planned\n   restoreplanned => Service has a restore planned\n   error => Service has an error",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceStatusResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/os": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceOsResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/ip": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceIpResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/ip/{ip}/rdns": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    },
+                    {
+                        "name": "ip",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1.1.1.1"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "rdns": {
+                                        "type": "string",
+                                        "example": "mail.test.de"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "rdns": "mail.test.de"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/stop": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/start": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/shutdown": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/restart": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/reinstall": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "os": {
+                                        "type": "string",
+                                        "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "os": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/backup": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceBackupResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   10 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/cron": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceCronResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "name"
+                                    },
+                                    "action": {
+                                        "type": "string",
+                                        "example": "start"
+                                    },
+                                    "expression": {
+                                        "type": "string",
+                                        "example": "* * * * *"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "name",
+                                    "action": "start",
+                                    "expression": "* * * * *"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/cron/{cronid}": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    },
+                    {
+                        "name": "cronid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "name"
+                                    },
+                                    "action": {
+                                        "type": "string",
+                                        "example": "start"
+                                    },
+                                    "expression": {
+                                        "type": "string",
+                                        "example": "* * * * *"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "name",
+                                    "action": "start",
+                                    "expression": "* * * * *"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/cron/{cronid}/delete": {
+            "delete": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    },
+                    {
+                        "name": "cronid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/backup/delete": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "backup": {
+                                        "type": "string",
+                                        "example": "name"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "backup": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/backup/restore": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n   ## Ratelimit\n   30 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "backup": {
+                                        "type": "string",
+                                        "example": "name"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "backup": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/extend": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n## Ratelimit\n30 requests every 900 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "days": {
+                                        "type": "integer",
+                                        "example": "name"
+                                    },
+                                    "credit": {
+                                        "type": "integer",
+                                        "example": "0"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "days": "15",
+                                    "credit": "0"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceExtendResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/service/{serviceid}/hide": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "description": "\n# Ratelimit\n requests every 60 seconds",
+                "parameters": [
+                    {
+                        "name": "serviceid",
+                        "in": "path",
+                        "description": " ",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "e53490af-aa1a-4c01-8617-b5f77e7fd773"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ServiceHideResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/429"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DisplayResponse": {
+                "properties": {
+                    "backup": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "true"
+                    },
+                    "cron": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "true"
+                    },
+                    "hardware": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "true"
+                    },
+                    "ip": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "true"
+                    },
+                    "livedata": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "true"
+                    },
+                    "novnc": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "true"
+                    },
+                    "traffic": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "true"
+                    }
+                },
+                "type": "object"
+            },
+            "DonationPaymentLinkStart": {
+                "properties": {
+                    "url": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "https://paymentprovider.com"
+                    }
+                },
+                "type": "object"
+            },
+            "DonationPaymentStatus": {
+                "properties": {
+                    "done": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "true"
+                    }
+                },
+                "type": "object"
+            },
+            "Forbidden": {
+                "properties": {
+                    "error": {
+                        "description": "This request is not authenticated",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "IPv4Response": {
+                "properties": {
+                    "gw": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "37.114.37.1"
+                    },
+                    "ip": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "37.114.37.1"
+                    },
+                    "netmask": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "255.255.255.0"
+                    },
+                    "rdns": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "1.37.114.37.in-addr.arpa."
+                    },
+                    "subnetid": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "97"
+                    }
+                },
+                "type": "object"
+            },
+            "IPv6Response": {
+                "properties": {
+                    "firstip": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2a0c:520:1:30::2"
+                    },
+                    "gw": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2a0c:520:1:30::1"
+                    },
+                    "netmask": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2a0c:520:1:30:0:0:0:0"
+                    },
+                    "subnet": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2a0c:520:1:30:0:0:0:0/64"
+                    },
+                    "subnetid": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "49"
+                    }
+                },
+                "type": "object"
+            },
+            "InterfaceServiceResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "9cc373b9-bc3d-4482-8e62-08c9ad7872fd"
+                    },
+                    "serviceid": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "9cc373b9-bc3d-4482-8e62-08c9ad7872fd"
+                    }
+                },
+                "type": "object"
+            },
+            "InterfaceUserResponse": {
+                "properties": {
+                    "userid": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "9cc373b9-bc3d-4482-8e62-08c9ad7872fd"
+                    },
+                    "email": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "test@test.de"
+                    },
+                    "username": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "supportpin": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "3026ss3040"
+                    }
+                },
+                "type": "object"
+            },
+            "KVMLineOsResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    },
+                    "displayname": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "Ubuntu 20.04"
+                    },
+                    "proxmoxid": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "500"
+                    },
+                    "type": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "linux"
+                    }
+                },
+                "type": "object"
+            },
+            "KVMLineResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    },
+                    "line": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "intelxeon"
+                    },
+                    "cores": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "4"
+                    },
+                    "memory": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "8192"
+                    },
+                    "disk": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "51200"
+                    },
+                    "uplink": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1000"
+                    },
+                    "ipv4": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "ipv6": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "active": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "price": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "5.99"
+                    },
+                    "displayname": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "KVM Server S"
+                    },
+                    "ghzbase": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2,80"
+                    },
+                    "ghzturbo": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "3,60"
+                    },
+                    "traffic": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "discount": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "firstpayment": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "discountedprice": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "0.00"
+                    }
+                },
+                "type": "object"
+            },
+            "NotFound": {
+                "properties": {
+                    "error": {
+                        "description": "This resource could not be found",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderKVMResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderPayResponse": {
+                "properties": {
+                    "link": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "https://link.de"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductReponse": {
+                "properties": {
+                    "additionaltraffic": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "cores": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "4"
+                    },
+                    "created_on": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2022-04-26 15:12:14.782654"
+                    },
+                    "disk": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "51200"
+                    },
+                    "hostname": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "#1082"
+                    },
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "#c4e3f65f-3e77-4c8a-9eb7-8bdb63c43620"
+                    },
+                    "mac": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "4A:63:06:6D:02:04"
+                    },
+                    "memory": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "8192"
+                    },
+                    "nodeid": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "861759cd-7a11-4a6a-bd04-764f88f644b8"
+                    },
+                    "os": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "861759cd-7a11-4a6a-bd04-764f88f644b8"
+                    },
+                    "packet": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "861759cd-7a11-4a6a-bd04-764f88f644b8"
+                    },
+                    "proxmoxid": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1082"
+                    },
+                    "password": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "passwort12312414"
+                    },
+                    "serviceid": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "861759cd-7a11-4a6a-bd04-764f88f644b8"
+                    },
+                    "status": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "running"
+                    },
+                    "uplink": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1000"
+                    },
+                    "user": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "root"
+                    }
+                },
+                "type": "object"
+            },
+            "ResellerExtendServiceReseponse": {
+                "properties": {
+                    "id": {
+                        "description": "Serviceid",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    }
+                },
+                "type": "object"
+            },
+            "ResellerGameServerResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Serviceid",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    }
+                },
+                "type": "object"
+            },
+            "ResellerGameServerVersionResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Serviceid",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    },
+                    "slots": {
+                        "description": "Serviceid",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "memory": {
+                        "description": "Serviceid",
+                        "type": "string",
+                        "example": "1024"
+                    },
+                    "priceperunit": {
+                        "description": "Serviceid",
+                        "example": "0.99"
+                    }
+                },
+                "type": "object"
+            },
+            "ResellerOrderGameserverReseponse": {
+                "properties": {
+                    "id": {
+                        "description": "Serviceid",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    }
+                },
+                "type": "object"
+            },
+            "ResellerOrderKVMReseponse": {
+                "properties": {
+                    "id": {
+                        "description": "Serviceid",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    }
+                },
+                "type": "object"
+            },
+            "ResellerUserCreateResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Userid",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceBackupResponse": {
+                "properties": {
+                    "backupname": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "vm/1082/2022-04-29T18:26:57Z"
+                    },
+                    "created_on": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2022-04-29 18:26:56.675968"
+                    },
+                    "displayname": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "name"
+                    },
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "8629051f-ddd0-4953-9b01-faa9a4220df1"
+                    },
+                    "proxmoxid": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "1082"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceCronResponse": {
+                "properties": {
+                    "action": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "start"
+                    },
+                    "created_on": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2022-04-29 18:26:56.675968"
+                    },
+                    "displayname": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "name"
+                    },
+                    "expression": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "* * * * *"
+                    },
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "8629051f-ddd0-4953-9b01-faa9a4220df1"
+                    },
+                    "kvmid": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "c4e3f65f-3e77-4c8a-9eb7-8bdb63c43620"
+                    },
+                    "nextexecute": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2022-04-29 20:31:00"
+                    },
+                    "status": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceExtendResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceIPResponse": {
+                "properties": {
+                    "ipv4": {
+                        "description": "Value",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IPv4Response"
+                        }
+                    },
+                    "ipv6": {
+                        "description": "Value",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IPv6Response"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceInfoResponse": {
+                "properties": {
+                    "display": {
+                        "$ref": "#/components/schemas/DisplayResponse"
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/ProductReponse"
+                    },
+                    "service": {
+                        "$ref": "#/components/schemas/ServiceResponse"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceResponse": {
+                "properties": {
+                    "id": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "baa7d0b3-0b56-4926-abce-c83ebb0d0677"
+                    },
+                    "created_on": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1650978734"
+                    },
+                    "delete_at": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "deletedone": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "expire_at": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "1654701134"
+                    },
+                    "name": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "preorder": {
+                        "description": "Value",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "price": {
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": "5.99"
+                    },
+                    "productdisplay": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "KVM Server"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceStatusResponse": {
+                "properties": {
+                    "status": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "running"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceTrafficResponse": {
+                "properties": {
+                    "year": {
+                        "description": "Value",
+                        "type": "string",
+                        "example": "2022"
+                    }
+                },
+                "type": "object"
+            },
+            "TooManyRequests": {
+                "properties": {
+                    "error": {
+                        "description": "This function was used too often",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Unauthorized": {
+                "properties": {
+                    "error": {
+                        "description": "This resource does not belong to you",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Unauthorized"
+                        }
+                    }
+                }
+            },
+            "403": {
+                "description": "No authorization to manage this resource",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Forbidden"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "This resource was not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/NotFound"
+                        }
+                    }
+                }
+            },
+            "429": {
+                "description": "Too many requests",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/TooManyRequests"
+                        }
+                    }
+                }
+            },
+            "200": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {}
+                        }
+                    }
+                }
+            },
+            "DonationPaymentLinkStart": {
+                "description": "PaymentLink",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/DonationPaymentLinkStart"
+                        }
+                    }
+                }
+            },
+            "DonationPaymentStatus": {
+                "description": "PaymentStatus",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/DonationPaymentStatus"
+                        }
+                    }
+                }
+            },
+            "KVMLineResponse": {
+                "description": "List of KVM Server Offers.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/KVMLineResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "KVMPacketResponse": {
+                "description": "KVM Server Offer",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/KVMLineResponse"
+                        }
+                    }
+                }
+            },
+            "KVMPacketOsResponse": {
+                "description": "KVM Server Offer Os List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/KVMLineOsResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "OrderKVMResponse": {
+                "description": "Order KVM Server",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/OrderKVMResponse"
+                        }
+                    }
+                }
+            },
+            "OrderPayResponse": {
+                "description": "Pay Order",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/OrderPayResponse"
+                        }
+                    }
+                }
+            },
+            "ResellerOrderKVMReseponse": {
+                "description": "Order KVM Server",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResellerOrderKVMReseponse"
+                        }
+                    }
+                }
+            },
+            "ResellerOrderGameserverReseponse": {
+                "description": "Order Gameserver Server",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResellerOrderGameserverReseponse"
+                        }
+                    }
+                }
+            },
+            "ResellerGameServerVersionResponse": {
+                "description": "Get Gameserver Version",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ResellerGameServerVersionResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "ResellerGameServerResponse": {
+                "description": "Get Gameserver List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ResellerGameServerResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "ResellerExtendServiceReseponse": {
+                "description": "Extend Service",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResellerExtendServiceReseponse"
+                        }
+                    }
+                }
+            },
+            "InterfaceUserResponse": {
+                "description": "User Response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/InterfaceUserResponse"
+                        }
+                    }
+                }
+            },
+            "ResellerUserCreateResponse": {
+                "description": "User ID",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ResellerUserCreateResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "InterfaceServiceResponse": {
+                "description": "User ID",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/InterfaceServiceResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "ServiceListResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ServiceResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "ServiceStatusResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceStatusResponse"
+                        }
+                    }
+                }
+            },
+            "ServiceOsResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/KVMLineOsResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "ServiceHideResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceResponse"
+                        }
+                    }
+                }
+            },
+            "ServiceIpResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceIPResponse"
+                        }
+                    }
+                }
+            },
+            "ServiceTrafficResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceTrafficResponse"
+                        }
+                    }
+                }
+            },
+            "ServiceInfoResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceInfoResponse"
+                        }
+                    }
+                }
+            },
+            "ServiceBackupResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ServiceBackupResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "ServiceCronResponse": {
+                "description": "Service List",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ServiceCronResponse"
+                            }
+                        }
+                    }
+                }
+            },
+            "ServiceExtendResponse": {
+                "description": "Order KVM Server",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceExtendResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "name": "token",
+                "in": "query"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "user",
+            "description": "Access to user endpoints"
+        },
+        {
+            "name": "support",
+            "description": "Access to support endpoints"
+        },
+        {
+            "name": "payment",
+            "description": "Access to payment endpoints"
+        },
+        {
+            "name": "reseller",
+            "description": "Access to reseller endpoints"
+        },
+        {
+            "name": "webspace",
+            "description": "Access to webspace endpoints"
+        },
+        {
+            "name": "nextcloud",
+            "description": "Access to nextcloud endpoints"
+        },
+        {
+            "name": "gameserver",
+            "description": "Access to gameserver endpoints"
+        },
+        {
+            "name": "kvmserver",
+            "description": "Access to kvmserver endpoints"
+        },
+        {
+            "name": "dedicated",
+            "description": "Access to dedicated endpoints"
+        },
+        {
+            "name": "order",
+            "description": "Access to order endpoints"
+        },
+        {
+            "name": "service",
+            "description": "Access to service endpoints"
+        }
+    ]
+}
