@@ -3,9 +3,7 @@
 import { useServers } from "@/hooks/use-servers";
 import { ServerCard } from "@/components/servers/server-card";
 import { Server } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { LoadingSpinner, ErrorState, EmptyState } from "@/components/ui/loading-state";
-import Link from "next/link";
 
 export default function ServersPage() {
   const { data: servers, isLoading, error, refetch } = useServers();
@@ -13,21 +11,16 @@ export default function ServersPage() {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
-            Your{" "}
-            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-              Servers
-            </span>
-          </h1>
-          <p className="mt-1 text-slate-500">
-            Manage and monitor your Datalix VPS instances
-          </p>
-        </div>
-        <Link href="/orders">
-          <Button>Order New Server</Button>
-        </Link>
+      <div>
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+          Your{" "}
+          <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+            Servers
+          </span>
+        </h1>
+        <p className="mt-1 text-slate-500">
+          Manage and monitor your Datalix VPS instances
+        </p>
       </div>
 
       {isLoading && <LoadingSpinner />}
@@ -44,8 +37,7 @@ export default function ServersPage() {
         <EmptyState
           icon={Server}
           title="No servers yet"
-          description="Order your first server to get started"
-          action={{ label: "Order Server", href: "/orders" }}
+          description="Add your Datalix API key in Settings to see your servers"
         />
       )}
 

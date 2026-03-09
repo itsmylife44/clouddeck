@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
   Server,
   Settings,
-  ShoppingCart,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -18,7 +17,6 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/servers", label: "Servers", icon: Server },
-  { href: "/orders", label: "Orders", icon: ShoppingCart },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 

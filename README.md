@@ -17,7 +17,6 @@ A self-hosted server management dashboard for [Datalix](https://datalix.eu) VPS 
 - **Network Management** -- View IPs, set reverse DNS, manage IPv4/IPv6
 - **Backup & Cron** -- Create/restore backups and manage cron jobs
 - **noVNC Console** -- Browser-based console access to your servers
-- **Order Servers** -- Browse all available KVM packages and order directly
 - **Multi-User** -- Admin and user roles with per-user API keys
 - **Encrypted API Keys** -- AES-256-GCM encryption, keys never leave the server
 - **Docker Ready** -- One command to deploy with Docker Compose

@@ -11,7 +11,6 @@ import type {
   CronJob,
   KvmLine,
   KvmPacket,
-  Order,
   PowerAction,
 } from "./types";
 
@@ -209,27 +208,6 @@ export class DatalixClient {
   async getNoVnc(serviceId: string): Promise<DatalixResponse<{ url: string }>> {
     const sid = DatalixClient.sanitizePath(serviceId);
     return this.request("GET", `/service/${sid}/novnc`);
-  }
-
-  // ─── Orders ───────────────────────────────────────────
-
-  async orderKvmServer(
-    packetId: string,
-    data: {
-      paymentMethod: string;
-      os: number;
-      ipcount: number;
-      credit?: boolean;
-    }
-  ): Promise<DatalixResponse<Order>> {
-    return this.request("POST", `/order/kvmserver/${packetId}`, data);
-  }
-
-  async payOrder(
-    orderId: string,
-    paymentMethod: string
-  ): Promise<DatalixResponse<void>> {
-    return this.request("POST", `/order/${orderId}/pay`, { paymentMethod });
   }
 
   // ─── KVM Info (no auth) ───────────────────────────────
