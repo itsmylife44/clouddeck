@@ -30,17 +30,17 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-slate-200 bg-white transition-all duration-200",
+        "fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 transition-all duration-200",
         collapsed ? "w-[68px]" : "w-[240px]"
       )}
     >
       {/* Logo */}
-      <div className="flex h-16 items-center gap-3 border-b border-slate-100 px-4">
+      <div className="flex h-16 items-center gap-3 border-b border-slate-100 dark:border-slate-800 px-4">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600">
           <LayoutDashboard className="h-5 w-5 text-white" />
         </div>
         {!collapsed && (
-          <span className="text-lg font-bold tracking-tight text-slate-900">
+          <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
             Cloud
             <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
               Deck
@@ -61,14 +61,14 @@ export function Sidebar() {
               className={cn(
                 "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-gradient-to-r from-indigo-50 to-violet-50 text-indigo-700"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-900/30 dark:to-violet-900/30 text-indigo-700 dark:text-indigo-300"
+                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200"
               )}
             >
               <item.icon
                 className={cn(
                   "h-5 w-5 shrink-0 transition-colors",
-                  isActive ? "text-indigo-600" : "text-slate-400 group-hover:text-slate-600"
+                  isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300"
                 )}
               />
               {!collapsed && <span>{item.label}</span>}
@@ -79,9 +79,9 @@ export function Sidebar() {
         {/* Admin section */}
         {isAdmin && (
           <>
-            <div className="my-3 border-t border-slate-100" />
+            <div className="my-3 border-t border-slate-100 dark:border-slate-800" />
             {!collapsed && (
-              <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 Admin
               </p>
             )}
@@ -95,14 +95,14 @@ export function Sidebar() {
                   className={cn(
                     "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "bg-gradient-to-r from-violet-50 to-indigo-50 text-violet-700"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      ? "bg-gradient-to-r from-violet-50 to-indigo-50 dark:from-violet-900/30 dark:to-indigo-900/30 text-violet-700 dark:text-violet-300"
+                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200"
                   )}
                 >
                   <item.icon
                     className={cn(
                       "h-5 w-5 shrink-0 transition-colors",
-                      isActive ? "text-violet-600" : "text-slate-400 group-hover:text-slate-600"
+                      isActive ? "text-violet-600 dark:text-violet-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300"
                     )}
                   />
                   {!collapsed && <span>{item.label}</span>}
@@ -114,10 +114,10 @@ export function Sidebar() {
       </nav>
 
       {/* Bottom actions */}
-      <div className="border-t border-slate-100 p-3 space-y-1">
+      <div className="border-t border-slate-100 dark:border-slate-800 p-3 space-y-1">
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="flex w-full items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-all duration-200"
+          className="flex w-full items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 transition-all duration-200"
         >
           {collapsed ? (
             <ChevronRight className="h-4 w-4" />
@@ -127,13 +127,13 @@ export function Sidebar() {
         </button>
 
         {!collapsed && (
-          <p className="px-3 pt-1 text-[10px] leading-tight text-slate-400">
+          <p className="px-3 pt-1 text-[10px] leading-tight text-slate-400 dark:text-slate-500">
             Not affiliated with{" "}
             <a
               href="https://datalix.eu"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-slate-500"
+              className="underline hover:text-slate-500 dark:hover:text-slate-400"
             >
               Datalix
             </a>

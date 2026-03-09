@@ -28,12 +28,12 @@ export function ErrorState({
 }: ErrorStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-red-50">
+      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-red-50 dark:bg-red-900/20">
         <AlertCircle className="h-7 w-7 text-red-500" />
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-slate-900">{title}</h3>
+      <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
       {message && (
-        <p className="mt-1 max-w-md text-sm text-slate-500">{message}</p>
+        <p className="mt-1 max-w-md text-sm text-slate-500 dark:text-slate-400">{message}</p>
       )}
       {onRetry && (
         <Button variant="secondary" className="mt-4" onClick={onRetry}>
@@ -63,12 +63,12 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50">
+      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-900/20">
         <Icon className="h-7 w-7 text-indigo-600" />
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-slate-900">{title}</h3>
+      <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
       {description && (
-        <p className="mt-1 text-sm text-slate-500">{description}</p>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{description}</p>
       )}
       {action &&
         (action.href ? (

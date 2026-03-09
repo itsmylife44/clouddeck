@@ -76,7 +76,7 @@ export default function ServerDetailPage({
 
   if (!server) {
     return (
-      <div className="py-20 text-center text-slate-500">Server not found</div>
+      <div className="py-20 text-center text-slate-500 dark:text-slate-400">Server not found</div>
     );
   }
 
@@ -97,7 +97,7 @@ export default function ServerDetailPage({
       <div>
         <button
           onClick={() => router.push("/servers")}
-          className="group mb-4 flex items-center gap-1 text-sm text-slate-500 hover:text-indigo-600 transition-colors"
+          className="group mb-4 flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           Back to Servers
@@ -129,7 +129,7 @@ export default function ServerDetailPage({
                     onChange={(e) => setLabelDraft(e.target.value)}
                     placeholder={server.name || server.hostname || "Server label"}
                     maxLength={100}
-                    className="h-10 rounded-lg border border-indigo-300 bg-white px-3 text-2xl font-extrabold tracking-tight text-slate-900 outline-none ring-2 ring-indigo-100"
+                    className="h-10 rounded-lg border border-indigo-300 dark:border-indigo-700 bg-white dark:bg-slate-800 px-3 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 outline-none ring-2 ring-indigo-100 dark:ring-indigo-900"
                     autoFocus
                   />
                   <button
@@ -144,14 +144,14 @@ export default function ServerDetailPage({
                     type="button"
                     onClick={() => setEditingLabel(false)}
                     aria-label="Cancel edit"
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
                   >
                     <X className="h-4 w-4" />
                   </button>
                 </form>
               ) : (
                 <>
-                  <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+                  <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
                     {server.customLabel || server.name || server.hostname || "Server"}
                   </h1>
                   {session?.user?.role === "ADMIN" && (
@@ -160,7 +160,7 @@ export default function ServerDetailPage({
                         setLabelDraft(server.customLabel || "");
                         setEditingLabel(true);
                       }}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-indigo-600"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-indigo-600"
                       title="Edit server label"
                     >
                       <Pencil className="h-4 w-4" />
@@ -182,7 +182,7 @@ export default function ServerDetailPage({
               >
                 {displayStatus}
               </Badge>
-              <span className="text-sm text-slate-500">
+              <span className="text-sm text-slate-500 dark:text-slate-400">
                 {server.productdisplay || "VPS"}
               </span>
             </div>
@@ -229,7 +229,7 @@ export default function ServerDetailPage({
               <Square className="h-3.5 w-3.5" />
               Force Stop
             </Button>
-            <div className="w-px h-6 bg-slate-200" />
+            <div className="w-px h-6 bg-slate-200 dark:bg-slate-700" />
             <Button
               size="sm"
               variant="ghost"
@@ -249,8 +249,8 @@ export default function ServerDetailPage({
 
         {/* Confirm dialog */}
         {confirmAction && confirmAction !== "hide" && (
-          <div className="mt-3 flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
-            <span className="text-sm text-amber-800">
+          <div className="mt-3 flex items-center gap-3 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 px-4 py-3">
+            <span className="text-sm text-amber-800 dark:text-amber-300">
               Are you sure you want to <strong>{confirmAction}</strong> this server?
             </span>
             <Button
@@ -275,8 +275,8 @@ export default function ServerDetailPage({
         )}
 
         {confirmAction === "hide" && (
-          <div className="mt-3 flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-            <span className="text-sm text-red-800">
+          <div className="mt-3 flex items-center gap-3 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-4 py-3">
+            <span className="text-sm text-red-800 dark:text-red-300">
               Are you sure you want to <strong>hide</strong> this server? It will be removed from your server list.
             </span>
             <Button
@@ -313,45 +313,45 @@ export default function ServerDetailPage({
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="hover:translate-y-0">
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 dark:bg-indigo-900/30">
               <Cpu className="h-5 w-5 text-indigo-600" />
             </div>
             <div>
-              <p className="text-xs text-slate-500">CPU</p>
-              <p className="text-lg font-bold text-slate-900">{server.cores ?? "—"} vCPU</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">CPU</p>
+              <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{server.cores ?? "—"} vCPU</p>
             </div>
           </CardContent>
         </Card>
         <Card className="hover:translate-y-0">
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 dark:bg-violet-900/30">
               <MemoryStick className="h-5 w-5 text-violet-600" />
             </div>
             <div>
-              <p className="text-xs text-slate-500">RAM</p>
-              <p className="text-lg font-bold text-slate-900">{formatMemory(server.memory)}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">RAM</p>
+              <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{formatMemory(server.memory)}</p>
             </div>
           </CardContent>
         </Card>
         <Card className="hover:translate-y-0">
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-900/30">
               <HardDrive className="h-5 w-5 text-emerald-600" />
             </div>
             <div>
-              <p className="text-xs text-slate-500">Storage</p>
-              <p className="text-lg font-bold text-slate-900">{formatDisk(server.disk)}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Storage</p>
+              <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{formatDisk(server.disk)}</p>
             </div>
           </CardContent>
         </Card>
         <Card className="hover:translate-y-0">
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 dark:bg-amber-900/30">
               <Globe className="h-5 w-5 text-amber-600" />
             </div>
             <div>
-              <p className="text-xs text-slate-500">Uplink</p>
-              <p className="text-lg font-bold text-slate-900">{formatUplink(server.uplink)}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Uplink</p>
+              <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{formatUplink(server.uplink)}</p>
             </div>
           </CardContent>
         </Card>
@@ -375,7 +375,7 @@ export default function ServerDetailPage({
                   Username
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm font-medium text-slate-900">{server.user}</span>
+                  <span className="font-mono text-sm font-medium text-slate-900 dark:text-slate-100">{server.user}</span>
                   <CopyButton value={server.user} />
                 </div>
               </div>
@@ -396,7 +396,7 @@ export default function ServerDetailPage({
                   Hostname
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm text-slate-900">{server.hostname}</span>
+                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.hostname}</span>
                   <CopyButton value={server.hostname} />
                 </div>
               </div>
@@ -408,7 +408,7 @@ export default function ServerDetailPage({
                   IP Address
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm text-slate-900">{server.ip}</span>
+                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.ip}</span>
                   <CopyButton value={server.ip} />
                 </div>
               </div>
@@ -448,7 +448,7 @@ export default function ServerDetailPage({
                   MAC Address
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm text-slate-900">{server.mac}</span>
+                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.mac}</span>
                   <CopyButton value={server.mac} />
                 </div>
               </div>
@@ -458,14 +458,14 @@ export default function ServerDetailPage({
                 <Calendar className="h-4 w-4" />
                 Created
               </div>
-              <span className="text-sm text-slate-900">{formatDate(server.created_on)}</span>
+              <span className="text-sm text-slate-900 dark:text-slate-100">{formatDate(server.created_on)}</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm text-slate-500">
                 <Calendar className="h-4 w-4" />
                 Expires
               </div>
-              <span className="text-sm text-slate-900">{formatExpiry(server.expire_at)}</span>
+              <span className="text-sm text-slate-900 dark:text-slate-100">{formatExpiry(server.expire_at)}</span>
             </div>
             {server.price && (
               <div className="flex items-center justify-between">
@@ -482,7 +482,7 @@ export default function ServerDetailPage({
                   <Hash className="h-4 w-4" />
                   VM ID
                 </div>
-                <span className="font-mono text-sm text-slate-900">{server.proxmoxid}</span>
+                <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.proxmoxid}</span>
               </div>
             )}
           </CardContent>

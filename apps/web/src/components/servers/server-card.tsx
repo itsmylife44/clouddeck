@@ -32,16 +32,16 @@ export function ServerCard({ server }: ServerCardProps) {
               )}
             </div>
           </div>
-          <ArrowRight className="h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-1 group-hover:text-indigo-500" />
+          <ArrowRight className="h-4 w-4 text-slate-300 dark:text-slate-600 transition-transform group-hover:translate-x-1 group-hover:text-indigo-500" />
         </CardHeader>
         <CardContent>
           {server.ip && (
-            <div className="flex items-center gap-2 text-sm text-slate-600">
+            <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
               <Globe className="h-4 w-4 text-slate-400" />
               <span className="font-mono">{server.ip}</span>
             </div>
           )}
-          <div className="mt-3 flex items-center gap-2 text-xs text-slate-400">
+          <div className="mt-3 flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
             <span>Expires: {formatExpiry(server.expire_at)}</span>
             {server.price && (
               <>

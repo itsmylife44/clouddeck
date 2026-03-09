@@ -37,7 +37,7 @@ export function ServerTabs({ serverId }: { serverId: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-1 rounded-lg bg-slate-100 p-1 overflow-x-auto">
+      <div className="flex gap-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 p-1 overflow-x-auto">
         {tabs.map((tab) => {
           const allowed = hasPermission(mask, tab.flag);
           return (
@@ -47,8 +47,8 @@ export function ServerTabs({ serverId }: { serverId: string }) {
               className={cn(
                 "whitespace-nowrap flex-1 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200",
                 activeTab === tab.id
-                  ? "bg-white text-indigo-700 shadow-[0_1px_3px_rgba(79,70,229,0.1)]"
-                  : "text-slate-500 hover:text-slate-700",
+                  ? "bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-[0_1px_3px_rgba(79,70,229,0.1)]"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200",
                 !allowed && "opacity-50"
               )}
             >
@@ -80,11 +80,11 @@ export function ServerTabs({ serverId }: { serverId: string }) {
 function NoPermission() {
   return (
     <div className="flex flex-col items-center py-16 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 dark:bg-amber-900/20">
         <ShieldAlert className="h-7 w-7 text-amber-500" />
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-slate-900">No Permission</h3>
-      <p className="mt-1 max-w-sm text-sm text-slate-500">
+      <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-slate-100">No Permission</h3>
+      <p className="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">
         You don&apos;t have permission to access this feature. Contact your administrator to request access.
       </p>
     </div>

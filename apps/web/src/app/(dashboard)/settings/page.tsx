@@ -48,12 +48,12 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
           <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
             Settings
           </span>
         </h1>
-        <p className="mt-1 text-slate-500">
+        <p className="mt-1 text-slate-500 dark:text-slate-400">
           {isAdmin ? "Manage your API keys and account preferences" : "Manage your account preferences"}
         </p>
       </div>
@@ -85,7 +85,7 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {showAddForm && (
-            <div className="rounded-lg border border-indigo-100 bg-indigo-50/50 p-4 space-y-3">
+            <div className="rounded-lg border border-indigo-100 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-900/20 p-4 space-y-3">
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-1">
                   <Label>Label</Label>
@@ -105,7 +105,7 @@ export default function SettingsPage() {
                   />
                 </div>
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 The key will be tested against the Datalix API before saving.
               </p>
               <div className="flex gap-2">
@@ -132,8 +132,8 @@ export default function SettingsPage() {
           ) : !apiKeys || apiKeys.length === 0 ? (
             <div className="flex flex-col items-center py-6 text-center">
               <AlertCircle className="h-8 w-8 text-amber-500" />
-              <p className="mt-2 font-medium text-slate-900">No API key configured</p>
-              <p className="text-sm text-slate-500">
+              <p className="mt-2 font-medium text-slate-900 dark:text-slate-100">No API key configured</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
                 Add your Datalix API key to start managing your servers
               </p>
             </div>
@@ -142,13 +142,13 @@ export default function SettingsPage() {
               {apiKeys.map((key) => (
                 <div
                   key={key.id}
-                  className="flex items-center justify-between rounded-lg border border-slate-100 p-4"
+                  className="flex items-center justify-between rounded-lg border border-slate-100 dark:border-slate-700 p-4"
                 >
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                     <div>
-                      <p className="font-medium text-slate-900">{key.label}</p>
-                      <p className="text-xs text-slate-500">
+                      <p className="font-medium text-slate-900 dark:text-slate-100">{key.label}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
                         Added {new Date(key.createdAt).toLocaleDateString()}
                         {key.lastUsedAt &&
                           ` · Last used ${new Date(key.lastUsedAt).toLocaleDateString()}`}
@@ -159,7 +159,7 @@ export default function SettingsPage() {
                     size="sm"
                     variant="ghost"
                     onClick={() => handleDelete(key.id)}
-                    className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                   </Button>
