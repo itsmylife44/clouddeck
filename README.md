@@ -17,7 +17,8 @@ A self-hosted server management dashboard for [Datalix](https://datalix.eu) VPS 
 - **Network Management** -- View IPs, set reverse DNS, manage IPv4/IPv6
 - **Backup & Cron** -- Create/restore backups and manage cron jobs
 - **noVNC Console** -- Browser-based console access to your servers
-- **Multi-User** -- Admin and user roles with per-user API keys
+- **Role-Based Access Control** -- Granular per-server permissions with bitmask flags (View, Power, Console, Network, Backup, Cron, Reinstall, Extend)
+- **Multi-User** -- Admin and user roles with role templates (Viewer, Operator, Manager)
 - **Encrypted API Keys** -- AES-256-GCM encryption, keys never leave the server
 - **Docker Ready** -- One command to deploy with Docker Compose
 
@@ -43,7 +44,7 @@ A self-hosted server management dashboard for [Datalix](https://datalix.eu) VPS 
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/your-username/clouddeck.git
+git clone https://github.com/itsmylife44/clouddeck.git
 cd clouddeck
 npm install
 ```
@@ -90,37 +91,71 @@ npm run dev
 | `PORT` | No | Server port (default: `3000`) |
 | `NODE_ENV` | No | `development` or `production` |
 
-Generate secrets:
+Generate all secrets automatically:
 
 ```bash
-# NEXTAUTH_SECRET
-openssl rand -base64 32
-
-# ENCRYPTION_SECRET
-openssl rand -hex 32
+chmod +x setup-env.sh
+./setup-env.sh
 ```
+
+This creates a `.env` file with cryptographically secure passwords and secrets. Use `./setup-env.sh --force` to regenerate.
 
 ## Production Deployment
 
-### Docker Compose
+### Docker Compose (recommended)
 
 ```bash
-# Configure production environment
-cp .env.example .env
-# Edit .env with strong passwords and real secrets
+# 1. Generate production secrets
+./setup-env.sh
 
-# Build and start
+# 2. Edit .env -- set NEXTAUTH_URL to your domain
+#    NEXTAUTH_URL=https://cloud.yourdomain.com
+
+# 3. Build and start
 npm run docker:prod
 ```
 
-This starts PostgreSQL and the Next.js standalone server in a security-hardened configuration (read-only filesystem, dropped capabilities, non-root user, health checks).
+This starts PostgreSQL and the Next.js standalone server in a security-hardened configuration:
+
+- Read-only filesystem with tmpfs for caches
+- All Linux capabilities dropped (except NET_BIND_SERVICE)
+- `no-new-privileges` security option
+- Non-root user inside container
+- Health checks on both database and app
+- Database not exposed to host network
 
 ### Manual
 
 ```bash
+./setup-env.sh
 npm run build
 cd apps/web && npm start
 ```
+
+## Permissions System
+
+CloudDeck uses a **bitmask-based RBAC** system for granular server access control:
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| View | 1 | See server details, status, IPs, monitoring |
+| Power | 2 | Start, stop, restart, shutdown |
+| Console | 4 | noVNC browser console access |
+| Network | 8 | Set reverse DNS, manage IPs |
+| Backup | 16 | Create, restore, delete backups |
+| Cron | 32 | Manage cron jobs |
+| Reinstall | 64 | Reinstall operating system |
+| Extend | 128 | Extend service lifetime, hide server |
+
+**Role templates** for quick assignment:
+
+| Template | Flags | Mask |
+|----------|-------|------|
+| Viewer | View | 1 |
+| Operator | View, Power, Console, Backup | 23 |
+| Manager | All | 255 |
+
+Admins have full access to all servers. Regular users see only servers they've been granted access to.
 
 ## Project Structure
 
@@ -134,11 +169,12 @@ clouddeck/
 │   │   ├── components/        # React components
 │   │   ├── hooks/             # TanStack Query hooks
 │   │   └── lib/               # Utilities, auth, encryption
-│   └── src/prisma/            # Database schema
+│   └── prisma/                # Database schema
 ├── packages/
 │   └── datalix-client/        # Typed Datalix API client
 ├── docker-compose.yml         # Production setup
 ├── docker-compose.dev.yml     # Development setup
+├── setup-env.sh               # Generate production secrets
 └── dev.sh                     # One-command dev startup
 ```
 
@@ -146,6 +182,7 @@ clouddeck/
 
 | Command | Description |
 |---------|-------------|
+| `./setup-env.sh` | Generate production secrets into `.env` |
 | `./dev.sh` | Start everything (Docker DB + dev server) |
 | `./dev.sh down` | Stop all containers |
 | `./dev.sh reset` | Reset database to clean state |
@@ -160,8 +197,12 @@ clouddeck/
 - API keys are encrypted with **AES-256-GCM** before storage -- never stored in plaintext
 - All Datalix API calls are proxied server-side -- keys never reach the browser
 - Passwords hashed with **bcrypt** (12 rounds)
+- User roles re-validated from database on every API request (no stale JWT bypass)
+- Per-server permission checks with bitmask flags on all 13 API routes
+- Server-side admin layout guard on all `/admin` routes
 - Production Docker uses read-only filesystem, dropped Linux capabilities, and non-root user
 - Input validation with **Zod** on all API endpoints
+- Generated secrets use `openssl` with cryptographic randomness
 
 ## Disclaimer
 
