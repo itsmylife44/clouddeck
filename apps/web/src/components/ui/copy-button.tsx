@@ -24,7 +24,7 @@ export function CopyButton({ value, className }: CopyButtonProps) {
       onClick={copy}
       className={
         className ??
-        "text-slate-400 hover:text-indigo-600 transition-colors"
+        "text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       }
     >
       {copied ? (

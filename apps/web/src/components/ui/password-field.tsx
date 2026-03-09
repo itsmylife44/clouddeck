@@ -17,12 +17,12 @@ export function PasswordField({ value }: PasswordFieldProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="font-mono text-sm text-slate-900">
+      <span className="font-mono text-sm text-slate-900 dark:text-slate-100">
         {visible ? value : "••••••••••••"}
       </span>
       <button
         onClick={toggle}
-        className="text-slate-400 hover:text-indigo-600 transition-colors"
+        className="text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
         {visible ? (
           <EyeOff className="h-3.5 w-3.5" />
