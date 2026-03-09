@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import {
   Users,
   Plus,
@@ -11,6 +12,7 @@ import {
   Key,
   AlertCircle,
   Loader2,
+  Lock,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -214,9 +216,15 @@ export default function AdminUsersPage() {
                         })}
                       </td>
                       <td className="py-3 text-right">
-                        <span className="text-xs text-slate-400">
-                          Click role/status to edit
-                        </span>
+                        {user.role === "USER" && (
+                          <Link
+                            href={`/admin/permissions/${user.id}`}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-all hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
+                          >
+                            <Lock className="h-3 w-3" />
+                            Permissions
+                          </Link>
+                        )}
                       </td>
                     </tr>
                   ))}

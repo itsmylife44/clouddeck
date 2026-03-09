@@ -22,6 +22,9 @@ export function handleApiError(error: unknown) {
     if (error.message === "UNAUTHORIZED") {
       return errorResponse("Authentication required", 401);
     }
+    if (error.message === "FORBIDDEN") {
+      return errorResponse("You do not have permission for this action", 403);
+    }
     if (error.message === "NO_API_KEY") {
       return errorResponse("No Datalix API key configured. Please add one in Settings.", 422);
     }
