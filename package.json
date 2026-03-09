@@ -9,15 +9,16 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
-    "db:push": "cd apps/web && npx prisma db push",
-    "db:migrate": "cd apps/web && npx prisma migrate dev",
-    "db:studio": "cd apps/web && npx prisma studio",
+    "db:push": "dotenv -e .env -- npx prisma db push --schema apps/web/prisma/schema.prisma",
+    "db:migrate": "dotenv -e .env -- npx prisma migrate dev --schema apps/web/prisma/schema.prisma",
+    "db:studio": "dotenv -e .env -- npx prisma studio --schema apps/web/prisma/schema.prisma",
     "docker:dev": "docker compose -f docker-compose.dev.yml up -d",
     "docker:dev:down": "docker compose -f docker-compose.dev.yml down",
     "docker:prod": "docker compose up -d --build",
     "docker:prod:down": "docker compose down"
   },
   "devDependencies": {
+    "dotenv-cli": "^11.0.0",
     "turbo": "^2.8.14"
   }
 }
