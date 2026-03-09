@@ -136,7 +136,7 @@ export default function ServerDetailPage({
                     type="submit"
                     disabled={updateLabel.isPending}
                     aria-label="Save label"
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-emerald-600 hover:bg-emerald-50"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
                   >
                     {updateLabel.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                   </button>
@@ -370,7 +370,7 @@ export default function ServerDetailPage({
           <CardContent className="space-y-4">
             {server.user && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <User className="h-4 w-4" />
                   Username
                 </div>
@@ -382,7 +382,7 @@ export default function ServerDetailPage({
             )}
             {server.password && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <KeyRound className="h-4 w-4" />
                   Password
                 </div>
@@ -391,30 +391,30 @@ export default function ServerDetailPage({
             )}
             {server.hostname && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <Server className="h-4 w-4" />
                   Hostname
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.hostname}</span>
+                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100">{server.hostname}</span>
                   <CopyButton value={server.hostname} />
                 </div>
               </div>
             )}
             {server.ip && typeof server.ip === "string" && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <Globe className="h-4 w-4" />
                   IP Address
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.ip}</span>
+                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100">{server.ip}</span>
                   <CopyButton value={server.ip} />
                 </div>
               </div>
             )}
             {!server.user && !server.password && !server.hostname && (
-              <p className="text-sm text-slate-400">No credentials available</p>
+              <p className="text-sm text-slate-400 dark:text-slate-500">No credentials available</p>
             )}
           </CardContent>
         </Card>
@@ -430,12 +430,12 @@ export default function ServerDetailPage({
           <CardContent className="space-y-4">
             {(server.osName || server.os) && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <Monitor className="h-4 w-4" />
                   OS Template
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-slate-900">
+                  <span className="text-sm font-medium text-slate-900 dark:text-slate-100">
                     {server.osName || server.os}
                   </span>
                 </div>
@@ -443,25 +443,25 @@ export default function ServerDetailPage({
             )}
             {server.mac && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <Network className="h-4 w-4" />
                   MAC Address
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.mac}</span>
+                  <span className="font-mono text-sm text-slate-900 dark:text-slate-100">{server.mac}</span>
                   <CopyButton value={server.mac} />
                 </div>
               </div>
             )}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-slate-500">
+              <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                 <Calendar className="h-4 w-4" />
                 Created
               </div>
               <span className="text-sm text-slate-900 dark:text-slate-100">{formatDate(server.created_on)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-slate-500">
+              <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                 <Calendar className="h-4 w-4" />
                 Expires
               </div>
@@ -469,20 +469,20 @@ export default function ServerDetailPage({
             </div>
             {server.price && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <Tag className="h-4 w-4" />
                   Price
                 </div>
-                <span className="text-sm font-medium text-slate-900">{server.price} €/month</span>
+                <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{server.price} €/month</span>
               </div>
             )}
             {server.proxmoxid && (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <Hash className="h-4 w-4" />
                   VM ID
                 </div>
-                <span className="font-mono text-sm text-slate-900 dark:text-slate-100 dark:text-slate-100">{server.proxmoxid}</span>
+                <span className="font-mono text-sm text-slate-900 dark:text-slate-100">{server.proxmoxid}</span>
               </div>
             )}
           </CardContent>
