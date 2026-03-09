@@ -70,17 +70,17 @@ export function BackupsTab({ serverId }: { serverId: string }) {
       </CardHeader>
       <CardContent>
         {!backups || backups.length === 0 ? (
-          <p className="text-sm text-slate-500">No backups yet</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">No backups yet</p>
         ) : (
           <div className="space-y-3">
             {backups.map((backup) => (
               <div
                 key={backup.id}
-                className="flex items-center justify-between rounded-lg border border-slate-100 p-4"
+                className="flex items-center justify-between rounded-lg border border-slate-100 dark:border-slate-700 p-4"
               >
                 <div>
-                  <p className="font-medium text-slate-900">{backup.displayname || backup.backupname || backup.id}</p>
-                  <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+                  <p className="font-medium text-slate-900 dark:text-slate-100">{backup.displayname || backup.backupname || backup.id}</p>
+                  <div className="mt-1 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                     <span>{formatTimestamp(backup.created_on)}</span>
                   </div>
                 </div>
@@ -118,7 +118,7 @@ export function BackupsTab({ serverId }: { serverId: string }) {
                       size="sm"
                       variant="ghost"
                       onClick={() => handleAction("delete", backup.id)}
-                      className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                      className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
                     >
                       <Trash2 className="h-3 w-3" />
                     </Button>

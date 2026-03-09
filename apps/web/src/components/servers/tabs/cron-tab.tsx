@@ -93,7 +93,7 @@ export function CronTab({ serverId }: { serverId: string }) {
       </CardHeader>
       <CardContent className="space-y-4">
         {showForm && (
-          <div className="rounded-lg border border-indigo-100 bg-indigo-50/50 p-4 space-y-3">
+          <div className="rounded-lg border border-indigo-100 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-900/20 p-4 space-y-3">
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="space-y-1">
                 <Label>Name</Label>
@@ -108,7 +108,7 @@ export function CronTab({ serverId }: { serverId: string }) {
                 <select
                   value={form.action}
                   onChange={(e) => setForm({ ...form, action: e.target.value })}
-                  className="flex h-10 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm"
+                  className="flex h-10 w-full rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-slate-100"
                 >
                   <option value="start">Start</option>
                   <option value="stop">Stop</option>
@@ -136,18 +136,18 @@ export function CronTab({ serverId }: { serverId: string }) {
         )}
 
         {!crons || crons.length === 0 ? (
-          <p className="text-sm text-slate-500">No cron jobs configured</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">No cron jobs configured</p>
         ) : (
           <div className="space-y-3">
             {crons.map((cron) => (
               <div
                 key={cron.id}
-                className="flex items-center justify-between rounded-lg border border-slate-100 p-4"
+                className="flex items-center justify-between rounded-lg border border-slate-100 dark:border-slate-700 p-4"
               >
                 <div>
-                  <p className="font-medium text-slate-900">{cron.displayname}</p>
-                  <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
-                    <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono">
+                  <p className="font-medium text-slate-900 dark:text-slate-100">{cron.displayname}</p>
+                  <div className="mt-1 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <code className="rounded bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 font-mono text-slate-700 dark:text-slate-300">
                       {cron.expression}
                     </code>
                     <Badge>{cron.action}</Badge>
@@ -160,7 +160,7 @@ export function CronTab({ serverId }: { serverId: string }) {
                   size="sm"
                   variant="ghost"
                   onClick={() => handleDelete(String(cron.id))}
-                  className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                  className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>

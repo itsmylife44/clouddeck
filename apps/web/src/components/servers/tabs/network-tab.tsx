@@ -63,21 +63,21 @@ export function NetworkTab({ serverId }: { serverId: string }) {
       </CardHeader>
       <CardContent>
         {!hasIps ? (
-          <p className="text-sm text-slate-500">No IP addresses found</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">No IP addresses found</p>
         ) : (
           <div className="space-y-4">
             {/* IPv4 */}
             {ipv4List.length > 0 && (
               <div className="space-y-3">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">IPv4</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">IPv4</h4>
                 {ipv4List.map((entry) => (
                   <div
                     key={entry.ip}
-                    className="flex flex-col gap-2 rounded-lg border border-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between"
+                    className="flex flex-col gap-2 rounded-lg border border-slate-100 dark:border-slate-700 p-4 sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="flex items-center gap-3">
                       <Badge variant="default">IPv4</Badge>
-                      <span className="font-mono text-sm font-medium text-slate-900">
+                      <span className="font-mono text-sm font-medium text-slate-900 dark:text-slate-100">
                         {entry.ip}
                       </span>
                       <button
@@ -92,7 +92,7 @@ export function NetworkTab({ serverId }: { serverId: string }) {
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                       <span>GW: {entry.gw}</span>
                       <span>·</span>
                       <span>Mask: {entry.netmask}</span>
@@ -124,7 +124,7 @@ export function NetworkTab({ serverId }: { serverId: string }) {
                         </>
                       ) : (
                         <>
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-slate-500 dark:text-slate-400">
                             rDNS: {entry.rdns || "—"}
                           </span>
                           <Button
@@ -148,15 +148,15 @@ export function NetworkTab({ serverId }: { serverId: string }) {
             {/* IPv6 */}
             {ipv6List.length > 0 && (
               <div className="space-y-3">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">IPv6</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">IPv6</h4>
                 {ipv6List.map((entry) => (
                   <div
                     key={entry.subnet}
-                    className="flex flex-col gap-2 rounded-lg border border-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between"
+                    className="flex flex-col gap-2 rounded-lg border border-slate-100 dark:border-slate-700 p-4 sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="flex items-center gap-3">
                       <Badge variant="outline">IPv6</Badge>
-                      <span className="font-mono text-sm font-medium text-slate-900">
+                      <span className="font-mono text-sm font-medium text-slate-900 dark:text-slate-100">
                         {entry.firstip}
                       </span>
                       <button
@@ -171,7 +171,7 @@ export function NetworkTab({ serverId }: { serverId: string }) {
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                       <span>Subnet: {entry.subnet}</span>
                       <span>·</span>
                       <span>GW: {entry.gw}</span>

@@ -44,12 +44,12 @@ export function ConsoleTab({ serverId }: { serverId: string }) {
       </CardHeader>
       <CardContent className="space-y-4">
         {!consoleUrl && !error && (
-          <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-8 text-center">
-            <Monitor className="mx-auto h-12 w-12 text-slate-300" />
-            <p className="mt-4 text-sm text-slate-500">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-8 text-center">
+            <Monitor className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600" />
+            <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
               Access your server directly through the browser using noVNC web console.
             </p>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
               The console provides full keyboard and mouse access to your server.
             </p>
             <Button
@@ -68,9 +68,9 @@ export function ConsoleTab({ serverId }: { serverId: string }) {
         )}
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50/50 p-6 text-center">
+          <div className="rounded-xl border border-red-200 dark:border-red-800 bg-red-50/50 dark:bg-red-900/20 p-6 text-center">
             <AlertCircle className="mx-auto h-8 w-8 text-red-400" />
-            <p className="mt-3 text-sm text-red-600">{error}</p>
+            <p className="mt-3 text-sm text-red-600 dark:text-red-400">{error}</p>
             <Button
               variant="secondary"
               onClick={fetchConsoleUrl}
@@ -89,7 +89,7 @@ export function ConsoleTab({ serverId }: { serverId: string }) {
 
         {consoleUrl && (
           <div className="space-y-4">
-            <div className="overflow-hidden rounded-xl border border-slate-200">
+            <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
               <iframe
                 src={consoleUrl}
                 className="h-[600px] w-full border-0"

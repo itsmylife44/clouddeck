@@ -54,12 +54,12 @@ export function ReinstallTab({ serverId }: { serverId: string }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+        <div className="rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-4">
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 shrink-0" />
             <div>
-              <p className="font-semibold text-amber-800">Danger Zone</p>
-              <p className="text-sm text-amber-700 mt-1">
+              <p className="font-semibold text-amber-800 dark:text-amber-300">Danger Zone</p>
+              <p className="text-sm text-amber-700 dark:text-amber-400 mt-1">
                 Reinstalling the OS will <strong>permanently delete all data</strong> on this
                 server. This action cannot be undone. Make sure you have a backup.
               </p>
@@ -85,12 +85,12 @@ export function ReinstallTab({ serverId }: { serverId: string }) {
                   }}
                   className={`rounded-lg border p-3 text-left text-sm transition-all duration-200 ${
                     selectedOs?.id === os.id
-                      ? "border-indigo-300 bg-indigo-50 ring-2 ring-indigo-500"
-                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                      ? "border-indigo-300 dark:border-indigo-600 bg-indigo-50 dark:bg-indigo-900/30 ring-2 ring-indigo-500"
+                      : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
                   }`}
                 >
-                  <p className="font-medium text-slate-900">{os.displayname}</p>
-                  <p className="text-xs text-slate-500">{os.type}</p>
+                  <p className="font-medium text-slate-900 dark:text-slate-100">{os.displayname}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{os.type}</p>
                 </button>
               ))}
             </div>
