@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 
@@ -12,6 +13,35 @@ export default async function DashboardLayout({
 
   if (!session) {
     redirect("/login");
+  }
+
+  // Single query: get role + API key count in one round-trip
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      role: true,
+      _count: { select: { apiKeys: true } },
+    },
+  });
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  if (user.role === "ADMIN") {
+    if (user._count.apiKeys === 0) {
+      redirect("/onboarding");
+    }
+  } else {
+    // Regular user: run both checks in parallel
+    const [adminKeyCount, permCount] = await Promise.all([
+      db.apiKey.count({ where: { user: { role: "ADMIN" } } }),
+      db.serverPermission.count({ where: { userId: session.user.id } }),
+    ]);
+
+    if (adminKeyCount === 0 || permCount === 0) {
+      redirect("/onboarding");
+    }
   }
 
   return (
