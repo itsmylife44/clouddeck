@@ -11,7 +11,7 @@ COPY apps/web/package.json ./apps/web/
 COPY packages/datalix-client/package.json ./packages/datalix-client/
 
 # Copy Prisma schema so postinstall "prisma generate" works
-COPY apps/web/src/prisma ./apps/web/src/prisma
+COPY apps/web/prisma ./apps/web/prisma
 
 RUN npm ci
 

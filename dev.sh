@@ -33,7 +33,7 @@ warn() { echo -e "${YELLOW}[CloudDeck]${NC} $1"; }
 err() { echo -e "${RED}[CloudDeck]${NC} $1"; }
 
 # ─── Command: down ───────────────────────────────────────────────
-if [ "${1}" = "down" ]; then
+if [ "${1:-}" = "down" ]; then
   log "Stopping Docker containers..."
   docker compose -f docker-compose.dev.yml down
   success "All containers stopped."
@@ -41,7 +41,7 @@ if [ "${1}" = "down" ]; then
 fi
 
 # ─── Command: reset ──────────────────────────────────────────────
-if [ "${1}" = "reset" ]; then
+if [ "${1:-}" = "reset" ]; then
   warn "This will DROP all data and re-create the database schema."
   read -rp "Are you sure? (y/N) " confirm
   if [[ "$confirm" =~ ^[yY]$ ]]; then
